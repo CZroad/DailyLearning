@@ -1,0 +1,37 @@
+	// 猫咪升级动画
+    public play() {
+      // const self = this;
+      // this.node.runAction(cc.sequence(cc.callFunc(() => {
+      //   self.sprFront.node.runAction(cc.scaleTo(0.5, 1).easing(cc.easeQuinticActionIn()));
+      // }), 
+      // cc.delayTime(0.5),
+      // cc.callFunc(() => {
+      //   self.sprArrow.node.runAction(cc.scaleTo(0.5, 1).easing(cc.easeQuinticActionIn()));
+      // }),
+      // cc.delayTime(0.5),
+      // cc.callFunc(() => {
+      //   self.sprNext.node.runAction(cc.scaleTo(0.5, 1).easing(cc.easeQuinticActionIn()));  
+      // })));
+
+      const self = this;
+      this.node.runAction(cc.sequence(cc.callFunc(() => {
+        self.sprFront.node.runAction(cc.scaleTo(0.5, 1).easing(cc.easeElasticOut(0.8)));
+      }), 
+      cc.delayTime(0.3),
+      cc.callFunc(() => {
+        self.sprArrow.node.runAction(cc.scaleTo(0.5, 1).easing(cc.easeElasticOut(0.8)));
+      }),
+      cc.delayTime(0.3),
+      cc.callFunc(() => {
+        self.sprNext.node.runAction(cc.scaleTo(0.5, 1).easing(cc.easeElasticOut(0.8)));  
+      })));
+      
+      this.scheduleOnce(() => {
+        this.node.runAction(cc.sequence(cc.moveTo(1, cc.v2(0, 2000)).easing(cc.easeBackInOut()), cc.callFunc(() => {
+          self.node.destroy();
+        })));
+      } , 4);
+    }
+
+    // update (dt) {}
+}
