@@ -1,0 +1,3 @@
+顶点 vertex vertices
+变换矩阵 transformation matrix
+投影矩阵 projection matrix
