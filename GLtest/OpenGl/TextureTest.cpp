@@ -1,6 +1,7 @@
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 #include "stb_image.h"
+#include"Shader.h"
 #include<iostream>
 
 
@@ -36,12 +37,17 @@ int main() {
 	// =================================================================
 
 	initVAO();
+	Shader mShader("Shaders/Vertex.vs","Shaders/Fragment.fs");
 	 //Frame  Loop
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		mShader.use();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glLineWidth(5);
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT, 0);
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
@@ -63,16 +69,25 @@ void initVAO() {
 	float vertices[] = {
 	-0.5f, -0.5f, 0.0f,
 	 0.5f, -0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f
+	 0.5f,  0.5f, 0.0f,
+	 -0.5f, 0.5f, 0.0f
 	};
 
-	unsigned int mVAO, mVBO;
+	unsigned int index[] = {
+		0,1,2,
+		2,3,0
+	};
+
+	unsigned int mVAO, mVBO, mEBO;
+	glGenBuffers(1, &mEBO);
 	glGenVertexArrays(1, &mVAO);
 	glGenBuffers(1, &mVBO);
 
 	glBindVertexArray(mVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO);
 
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), index, GL_STATIC_DRAW);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices),vertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
 	glEnableVertexAttribArray(0);
