@@ -1,0 +1,6 @@
+# vs 文件
+*.obj
+*.log
+*.opendb
+/GLtest/Debug/
+/GLtest/OpenGl/Debug/
